@@ -15,7 +15,7 @@ from entities.entity import BaseEntity
 # =============================================================================
 # >> CLASSES
 # =============================================================================
-class _ProjectileMeta(BaseEntity.__class__):
+class _ProjectileMeta(type):
 
     """Metaclass used to auto-create methods specific to the projectile."""
 

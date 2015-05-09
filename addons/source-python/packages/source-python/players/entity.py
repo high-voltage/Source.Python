@@ -18,7 +18,7 @@ from engines.trace import MAX_TRACE_LENGTH
 from engines.trace import Ray
 from engines.trace import TraceFilterSimple
 #   Entities
-from entities.entity import Entity
+from entities.entity import BaseEntity
 from entities.helpers import index_from_pointer
 #   Mathlib
 from mathlib import Vector
@@ -44,7 +44,7 @@ __all__ = ('PlayerEntity',
 # =============================================================================
 # >> CLASSES
 # =============================================================================
-class PlayerEntity(Entity, _GameWeapons, _PlayerWeapons):
+class PlayerEntity(BaseEntity, _GameWeapons, _PlayerWeapons):
 
     """Class used to interact directly with players."""
 
@@ -186,7 +186,7 @@ class PlayerEntity(Entity, _GameWeapons, _PlayerWeapons):
         index = index_from_pointer(pointer, False)
 
         # Return a Entity instance of the hit entity if it has an index
-        return Entity(index) if index else None
+        return BaseEntity(index) if index else None
 
     def set_view_entity(self, entity):
         """Force the player to look at the origin of the given entity."""

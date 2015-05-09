@@ -15,7 +15,7 @@ from memory.manager import manager
 #   Paths
 from paths import SP_DATA_PATH
 #   Entities
-from entities.entity import Entity
+from entities.entity import BaseEntity
 
 
 # =============================================================================
@@ -77,7 +77,7 @@ def beam(
         if parent:
             start_entity = start
         else:
-            start_vector = Entity(start).get_origin()
+            start_vector = BaseEntity(start).get_origin()
     else:
         start_vector = start
 
@@ -86,7 +86,7 @@ def beam(
         if parent:
             end_entity = end
         else:
-            end_vector = Entity(end).get_origin()
+            end_vector = BaseEntity(end).get_origin()
     else:
         end_vector = end
 

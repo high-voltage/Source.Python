@@ -18,19 +18,21 @@ from core import GameConfigObj
 #   Engines
 from engines.server import server_game_dll
 #   Entities
+from entities.constants import DATA_DESC_MAP_OFFSET
 from entities.datamaps import _supported_input_types
+from entities.datamaps import DataMap
 from entities.datamaps import EntityProperty
 from entities.datamaps import FieldType
 from entities.datamaps import InputFunction
 from entities.datamaps import TypeDescriptionFlags
 from entities.helpers import edict_from_pointer
-from entities.helpers import baseentity_from_pointer
 from entities.props import SendPropFlags
 from entities.props import SendPropType
 #   Memory
 from memory import Convention
 from memory import DataType
 from memory import get_object_pointer
+from memory import make_object
 from memory.helpers import Type
 from memory.manager import CustomType
 from memory.manager import TypeManager
@@ -42,7 +44,7 @@ from paths import SP_DATA_PATH
 # >> GLOBAL VARIABLES
 # =============================================================================
 # Get all of the necessary paths
-_managers_path = SP_DATA_PATH.joinpath('entities')
+_managers_path = SP_DATA_PATH.joinpath('entities', 'managers')
 
 # Store all supported types
 _supported_descriptor_types = {
@@ -139,13 +141,19 @@ class _ServerClasses(TypeManager):
         # Create a dictionary to store datamaps in for the entity
         entity_datamaps = OrderedDict()
 
-        # Get the DataMap object for the entity
-        datamap = entity.datamap
+        # Does the server/game have a GetDataDescMap offset?
+        if DATA_DESC_MAP_OFFSET is not None:
 
-        # Add all DataMaps for the entity to the dictionary
-        while datamap:
-            entity_datamaps[datamap.class_name] = datamap
-            datamap = datamap.base
+            # Get the DataMap object for the entity
+            function = entity.pointer.make_virtual_function(
+                DATA_DESC_MAP_OFFSET, Convention.THISCALL,
+                (DataType.POINTER, ), DataType.POINTER)
+            datamap = make_object(DataMap, function(entity.pointer))
+
+            # Add all DataMaps for the entity to the dictionary
+            while datamap:
+                entity_datamaps[datamap.class_name] = datamap
+                datamap = datamap.base
 
         # Find if there are ServerClasses that are not in the DataMaps
         difference = set(
@@ -452,15 +460,15 @@ class _ServerClasses(TypeManager):
 
     @staticmethod
     def keyvalue(name, type_name):
-        """Entity keyvalue."""
+        """BaseEntity keyvalue."""
         def fget(pointer):
             """Retrieve the keyvalue for the entity."""
-            return getattr(baseentity_from_pointer(
+            return getattr(edict_from_pointer(
                 pointer), 'get_key_value_' + type_name)(name)
 
         def fset(pointer, value):
             """Set the keyvalue for the entity to the given value."""
-            getattr(baseentity_from_pointer(
+            getattr(edict_from_pointer(
                 pointer), 'set_key_value_' + type_name)(name, value)
 
         return property(fget, fset)
@@ -484,7 +492,7 @@ class _ServerClasses(TypeManager):
     def entity_property(
             self, type_name, offset, networked,
             true_value=None, false_value=None):
-        """Entity property."""
+        """BaseEntity property."""
         native_type = Type.is_native(type_name)
 
         def fget(ptr):

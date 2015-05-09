@@ -23,43 +23,27 @@ from memory import make_object
 
 
 # =============================================================================
-# >> FORWARD IMPORTS
-# =============================================================================
-# Source.Python Imports
-#   Entities
-from _entities._entity import BaseEntity
-
-
-# =============================================================================
 # >> ALL DECLARATION
 # =============================================================================
 # Add all the global variables to __all__
 __all__ = ('BaseEntity',
-           'Entity',
            )
 
 
 # =============================================================================
 # >> CLASSES
 # =============================================================================
-class Entity(BaseEntity, _EntitySpecials):
+class BaseEntity(_EntitySpecials):
 
     """Class used to interact directly with entities."""
 
     def __new__(cls, index):
         """Verify the given index is valid and store base attributes."""
         # Get the given indexes edict
-        edict = edict_from_index(index, False)
-
-        # Is the edict valid?
-        if edict is None or edict.get_unknown() is None:
-
-            # If not raise an error
-            raise ValueError(
-                'Index "{0}" is not a proper entity index.'.format(index))
+        edict = edict_from_index(index)
 
         # Create the object
-        self = BaseEntity.__new__(cls)
+        self = object.__new__(cls)
 
         # Set the entity's base attributes
         self._index = index
@@ -101,21 +85,21 @@ class Entity(BaseEntity, _EntitySpecials):
             name = attr[1:]
 
             # Is the attribute a property?
-            if (name in super(Entity, self).__dir__() and isinstance(
+            if (name in super(BaseEntity, self).__dir__() and isinstance(
                     getattr(self.__class__, name), property)):
 
                 # Set the private attribute's value
-                super(Entity, self).__setattr__(attr, value)
+                super(BaseEntity, self).__setattr__(attr, value)
 
                 # No need to go further
                 return
 
         # Is the given attribute a property?
-        if (attr in super(Entity, self).__dir__() and isinstance(
+        if (attr in super(BaseEntity, self).__dir__() and isinstance(
                 getattr(self.__class__, attr), property)):
 
             # Set the property's value
-            super(Entity, self).__setattr__(attr, value)
+            super(BaseEntity, self).__setattr__(attr, value)
 
             # No need to go further
             return
@@ -133,12 +117,12 @@ class Entity(BaseEntity, _EntitySpecials):
                 return
 
         # If the attribute is not found, just set the attribute
-        super(Entity, self).__setattr__(attr, value)
+        super(BaseEntity, self).__setattr__(attr, value)
 
     def __dir__(self):
         """Return an alphabetized list of attributes for the instance."""
         # Get the base attributes
-        attributes = set(super(Entity, self).__dir__())
+        attributes = set(super(BaseEntity, self).__dir__())
 
         # Loop through all instances for the entity
         for instance in self.instances:
@@ -309,18 +293,18 @@ class Entity(BaseEntity, _EntitySpecials):
         # Set the entity's color
         self.render_color = value
 
-    # Set the "color" property for Entity
+    # Set the "color" property for BaseEntity
     color = property(
         get_color, set_color,
         doc="""Property to get/set the entity's color values.""")
 
     def get_origin(self):
         """Return the entity's origin vector."""
-        return self.get_key_value_vector('origin')
+        return self.edict.get_key_value_vector('origin')
 
     def set_origin(self, vector):
         """Set the entity's origin to the given vector."""
-        self.set_key_value_vector('origin', vector)
+        self.edict.set_key_value_vector('origin', vector)
 
     origin = property(
         get_origin, set_origin,
@@ -328,12 +312,12 @@ class Entity(BaseEntity, _EntitySpecials):
 
     def get_model(self):
         """Return the entity's model."""
-        return Model(self.get_model_name())
+        return Model(self.get_server_entity().get_model_name())
 
     def set_model(self, model):
         """Set the entity's model to the given model."""
-        self.edict.set_model_index(model.index)
-        self.set_key_value_string('model', model.path)
+        self.edict.get_server_entity().set_model_index(model.index)
+        self.edict.set_key_value_string('model', model.path)
 
     model = property(
         get_model, set_model,
