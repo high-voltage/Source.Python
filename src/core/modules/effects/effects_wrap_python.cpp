@@ -162,8 +162,8 @@ void export_temp_entities_system(scope _effects)
 	TempEntities.def("physics_prop", &ITempEntsSystem::PhysicsProp);
 	TempEntities.def("trigger_temp_entity", &ITempEntsSystem::TriggerTempEntity);
 
-	TempEntities.def("fizz", &ITempEntsSystem::Fizz);
-	TempEntities.def("client_projectile", &ITempEntsSystem::ClientProjectile);
+	//TempEntities.def("fizz", &ITempEntsSystem::Fizz);
+	//TempEntities.def("client_projectile", &ITempEntsSystem::ClientProjectile);
 
 	// OrangeBox methods...
 	TempEntities.NOT_IMPLEMENTED("dispatch_effect");
