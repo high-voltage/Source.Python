@@ -120,11 +120,4 @@ void export_entity_conversion_functions(scope _helpers)
 	EXPORT_CONVERSION_FUNCTION(CPointer *, Pointer, CBaseHandle, BaseHandle, manage_new_object_policy());
 	EXPORT_CONVERSION_FUNCTION(CPointer *, Pointer, int, IntHandle, manage_new_object_policy());
 	EXPORT_CONVERSION_FUNCTION(CPointer *, Pointer, CBaseEntity *, BaseEntity, manage_new_object_policy());
-
-	// To BaseEntity conversions...
-	EXPORT_CONVERSION_FUNCTION(CBaseEntity *, BaseEntity, unsigned int, Index, reference_existing_object_policy());
-	EXPORT_CONVERSION_FUNCTION(CBaseEntity *, BaseEntity, edict_t *, Edict, reference_existing_object_policy());
-	EXPORT_CONVERSION_FUNCTION(CBaseEntity *, BaseEntity, CBaseHandle, BaseHandle, reference_existing_object_policy());
-	EXPORT_CONVERSION_FUNCTION(CBaseEntity *, BaseEntity, int, IntHandle, reference_existing_object_policy());
-	EXPORT_CONVERSION_FUNCTION(CBaseEntity *, BaseEntity, CPointer *, Pointer, reference_existing_object_policy());
 }
