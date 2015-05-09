@@ -56,6 +56,19 @@ public:
 
 
 //-----------------------------------------------------------------------------
+// IServerUnknown extension class.
+//-----------------------------------------------------------------------------
+class ServerUnknownExt
+{
+public:
+	static CPointer *get_base_entity(IServerUnknown *pServerUnknown)
+	{
+		return new CPointer((unsigned long)pServerUnknown->GetBaseEntity());
+	}
+};
+
+
+//-----------------------------------------------------------------------------
 // CTakeDamageInfo wrapper class.
 //-----------------------------------------------------------------------------
 class TakeDamageInfoBaseWrapper: public CTakeDamageInfo
