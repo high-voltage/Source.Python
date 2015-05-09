@@ -83,7 +83,6 @@ void export_player_conversion_functions(scope _helpers)
 	EXPORT_CONVERSION_FUNCTION(unsigned int, Userid, int, IntHandle);
 	EXPORT_CONVERSION_FUNCTION(unsigned int, Userid, CPointer *, Pointer);
 	EXPORT_CONVERSION_FUNCTION(unsigned int, Userid, IPlayerInfo *, PlayerInfo);
-	EXPORT_CONVERSION_FUNCTION(unsigned int, Userid, CBaseEntity *, BaseEntity);
 	
 	// To PlayerInfo conversions...
 	EXPORT_CONVERSION_FUNCTION(IPlayerInfo *, PlayerInfo, unsigned int, Index, reference_existing_object_policy());
@@ -92,9 +91,4 @@ void export_player_conversion_functions(scope _helpers)
 	EXPORT_CONVERSION_FUNCTION(IPlayerInfo *, PlayerInfo, int, IntHandle, reference_existing_object_policy());
 	EXPORT_CONVERSION_FUNCTION(IPlayerInfo *, PlayerInfo, CPointer *, Pointer, reference_existing_object_policy());
 	EXPORT_CONVERSION_FUNCTION(IPlayerInfo *, PlayerInfo, unsigned int, Userid, reference_existing_object_policy());
-	EXPORT_CONVERSION_FUNCTION(IPlayerInfo *, PlayerInfo, CBaseEntity *, BaseEntity, reference_existing_object_policy());
-
-	// To BaseEntity conversions...
-	EXPORT_CONVERSION_FUNCTION(CBaseEntity *, BaseEntity, unsigned int, Userid, reference_existing_object_policy());
-	EXPORT_CONVERSION_FUNCTION(CBaseEntity *, BaseEntity, IPlayerInfo *, PlayerInfo, reference_existing_object_policy());
 }
