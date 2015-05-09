@@ -379,6 +379,78 @@ void export_edict(scope _entities)
 			reference_existing_object_policy()
 		)
 
+		.def("get_key_value_string",
+			&EdictExt::GetKeyValueString,
+			"Returns the value of the given field name.",
+			args("field_name")
+		)
+
+		.def("get_key_value_int",
+			&EdictExt::GetKeyValueInt,
+			"Returns the value of the given field name.",
+			args("field_name")
+		)
+
+		.def("get_key_value_float",
+			&EdictExt::GetKeyValueFloat,
+			"Returns the value of the given field name.",
+			args("field_name")
+		)
+
+		.def("get_key_value_vector",
+			&EdictExt::GetKeyValueVector,
+			"Returns the value of the given field name.",
+			args("field_name")
+		)
+
+		.def("get_key_value_bool",
+			&EdictExt::GetKeyValueBool,
+			"Returns the value of the given field name.",
+			args("field_name")
+		)
+
+		.def("get_key_value_color",
+			&EdictExt::GetKeyValueColor,
+			"Returns the value of the given field name.",
+			args("field_name")
+		)
+
+		.def("set_key_value_int",
+			&EdictExt::SetKeyValue<int>,
+			"Sets a field to the given value.",
+			args("field_name", "value")
+		)
+
+		.def("set_key_value_float",
+			&EdictExt::SetKeyValue<float>,
+			"Sets a field to the given value.",
+			args("field_name", "value")
+		)
+
+		.def("set_key_value_string",
+			&EdictExt::SetKeyValue<const char *>,
+			"Sets a field to the given value.",
+			args("field_name", "value")
+		)
+
+		.def("set_key_value_vector",
+			&EdictExt::SetKeyValue<Vector>,
+			"Sets a field to the given value.",
+			args("field_name", "value")
+		)
+
+		.def("set_key_value_bool",
+			&EdictExt::SetKeyValue<bool>,
+			"Sets a field to the given value.",
+			args("field_name", "value")
+		)
+
+		.def("set_key_value_color",
+			&EdictExt::SetKeyValueColor,
+			"Sets a field to the given value.",
+			args("field_name", "value")
+		)
+
 		// Class attributes
 		/*
 		// TODO: Missing on CS:GO
