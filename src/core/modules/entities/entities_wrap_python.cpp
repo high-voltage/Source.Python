@@ -163,11 +163,11 @@ void export_server_unknown(scope _entities)
 			reference_existing_object_policy()
 		)
 
-		.def("get_base_entity",
-			&IServerUnknown::GetBaseEntity,
-			"Returns the CBasEntity pointer for this entity.",
-			reference_existing_object_policy()
-		)
+		// .def("get_base_entity",
+			// &IServerUnknown::GetBaseEntity,
+			// "Returns the CBasEntity pointer for this entity.",
+			// reference_existing_object_policy()
+		// )
 
 		ADD_MEM_TOOLS(IServerUnknown)
 	;
@@ -244,10 +244,10 @@ void export_server_networkable(scope _entities)
 		)
 		*/
 
-		.def("get_base_entity",
-			&IServerNetworkable::GetBaseEntity,
-			reference_existing_object_policy()
-		)
+		// .def("get_base_entity",
+			// &IServerNetworkable::GetBaseEntity,
+			// reference_existing_object_policy()
+		// )
 
 		.def("get_pvs_info",
 			&IServerNetworkable::GetPVSInfo,
