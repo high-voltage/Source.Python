@@ -24,49 +24,46 @@
 * Development Team grants this exception to all derivative works.
 */
 
-#ifndef _ENGINES_WRAP_ORANGEBOX_H
-#define _ENGINES_WRAP_ORANGEBOX_H
+#ifndef _ENTITIES_DATAMAP_BMS_H
+#define _ENTITIES_DATAMAP_BMS_H
 
 //-----------------------------------------------------------------------------
 // Includes.
 //-----------------------------------------------------------------------------
-#include "engine/IEngineSound.h"
+#include "entities_datamaps_wrap.h"
 
 
 //-----------------------------------------------------------------------------
-// IEngineSound extension class.
+// Exports datamap_t.
 //-----------------------------------------------------------------------------
-class IEngineSoundExt
+template<class T, class U>
+void export_engine_specific_datamap(T _datamaps, U DataMap)
 {
-public:
-	static void EmitSound(IEngineSound* pEngineSound, IRecipientFilter& filter, int iEntIndex, int iChannel, const char *pSample, 
-		float flVolume, float flAttenuation, int iFlags, int iPitch, const Vector *pOrigin, const Vector *pDirection,
-		tuple origins, bool bUpdatePositions, float soundtime, int speakerentity)
-	{
-		CUtlVector<Vector> *pUtlVecOrigins = NULL;
-		CUtlVector<Vector> vecOrigins;
-		if (len(origins) > 0)
-		{
-			pUtlVecOrigins = &vecOrigins;
-			for(int i=0; i < len(origins); i++)
-			{
-				vecOrigins.AddToTail(extract<Vector>(origins[i]));
-			}
-		}
-		
-		pEngineSound->EmitSound(filter, iEntIndex, iChannel, pSample, flVolume, flAttenuation, iFlags, iPitch, 0, pOrigin,
-			pDirection, pUtlVecOrigins, bUpdatePositions, soundtime, speakerentity);
-	}
-};
-
-
-//---------------------------------------------------------------------------------
-// IEngineTrace
-//---------------------------------------------------------------------------------
-inline int GetPointContents(const Vector &vecAbsPosition, IHandleEntity** ppEntity)
-{
-	return enginetrace->GetPointContents(vecAbsPosition, ppEntity);
+	DataMap.def_readonly("chains_validated", &datamap_t::chains_validated);
+	DataMap.def_readonly("packed_offsets_computed", &datamap_t::packed_offsets_computed);
+	DataMap.def_readonly("packed_size", &datamap_t::packed_size);
 }
 
 
-#endif // _ENGINES_WRAP_ORANGEBOX_H
+//-----------------------------------------------------------------------------
+// Exports typedescription_t.
+//-----------------------------------------------------------------------------
+template<class T, class U>
+void export_engine_specific_type_description(T _datamaps, U TypeDescription)
+{
+	TypeDescription.add_property("offset", &TypeDescriptionExt::get_offset)	;
+	TypeDescription.add_property("packed_offset", &TypeDescriptionExt::get_packed_offset)	;
+}
+
+
+//-----------------------------------------------------------------------------
+// Exports fieldtype_t.
+//-----------------------------------------------------------------------------
+template<class T, class U>
+void export_engine_specific_field_types(T _datamaps, U FieldTypes)
+{
+	// Nothing specific to BMS...
+}
+
+
+#endif // _ENTITIES_DATAMAP_BMS_H

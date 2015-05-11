@@ -1,7 +1,7 @@
 /**
 * =============================================================================
 * Source Python
-* Copyright (C) 2014 Source Python Development Team.  All rights reserved.
+* Copyright (C) 2015 Source Python Development Team.  All rights reserved.
 * =============================================================================
 *
 * This program is free software; you can redistribute it and/or modify it under
@@ -24,49 +24,42 @@
 * Development Team grants this exception to all derivative works.
 */
 
-#ifndef _ENGINES_WRAP_ORANGEBOX_H
-#define _ENGINES_WRAP_ORANGEBOX_H
+#ifndef UNDEFINED_SYMBOLS_BMS_H
+#define UNDEFINED_SYMBOLS_BMS_H
 
 //-----------------------------------------------------------------------------
 // Includes.
 //-----------------------------------------------------------------------------
-#include "engine/IEngineSound.h"
+#include "dt_send.h"
+#include "game/shared/ehandle.h"
+#include "isaverestore.h"
+#include "datamap.h"
+#include "game/shared/takedamageinfo.h"
 
 
 //-----------------------------------------------------------------------------
-// IEngineSound extension class.
+// CTakeDamageInfo constructor declaration.
 //-----------------------------------------------------------------------------
-class IEngineSoundExt
+CTakeDamageInfo::CTakeDamageInfo()
 {
-public:
-	static void EmitSound(IEngineSound* pEngineSound, IRecipientFilter& filter, int iEntIndex, int iChannel, const char *pSample, 
-		float flVolume, float flAttenuation, int iFlags, int iPitch, const Vector *pOrigin, const Vector *pDirection,
-		tuple origins, bool bUpdatePositions, float soundtime, int speakerentity)
-	{
-		CUtlVector<Vector> *pUtlVecOrigins = NULL;
-		CUtlVector<Vector> vecOrigins;
-		if (len(origins) > 0)
-		{
-			pUtlVecOrigins = &vecOrigins;
-			for(int i=0; i < len(origins); i++)
-			{
-				vecOrigins.AddToTail(extract<Vector>(origins[i]));
-			}
-		}
-		
-		pEngineSound->EmitSound(filter, iEntIndex, iChannel, pSample, flVolume, flAttenuation, iFlags, iPitch, 0, pOrigin,
-			pDirection, pUtlVecOrigins, bUpdatePositions, soundtime, speakerentity);
-	}
-};
-
-
-//---------------------------------------------------------------------------------
-// IEngineTrace
-//---------------------------------------------------------------------------------
-inline int GetPointContents(const Vector &vecAbsPosition, IHandleEntity** ppEntity)
-{
-	return enginetrace->GetPointContents(vecAbsPosition, ppEntity);
+	m_hInflictor = NULL;
+	m_hAttacker = NULL;
+	m_hWeapon = NULL;
+	m_flDamage = 0.0f;
+	m_flBaseDamage = BASEDAMAGE_NOT_SPECIFIED;
+	m_bitsDamageType = 0;
+	m_iDamageCustom = 0;
+	m_flMaxDamage = 0.0f;
+	m_vecDamageForce = vec3_origin;
+	m_vecDamagePosition = vec3_origin;
+	m_vecReportedPosition = vec3_origin;
+	m_iAmmoType = -1;
+	m_iDamagedOtherPlayers = 0;
+	m_iPlayerPenetrationCount = 0;
+	m_flDamageBonus = 0.0f;
+	m_bForceFriendlyFire = false;
+	m_iDamageStats = 0;
+	m_hDamageBonusProvider = NULL;
 }
 
-
-#endif // _ENGINES_WRAP_ORANGEBOX_H
+#endif // _UNDEFINED_SYMBOLS_BMS_H

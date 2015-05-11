@@ -24,33 +24,22 @@
 * Development Team grants this exception to all derivative works.
 */
 
-#ifndef _GLOBALS_WRAP_PYTHON_ORANGEBOX_H
-#define _GLOBALS_WRAP_PYTHON_ORANGEBOX_H
+#include "convar.h"
+#ifndef PATCH_CONVAR_H_REMOVE_FLAGS
+#error "Implement ConCommandBase::RemoveFlags in public/tier1/convar.h"
+#endif
 
-//-----------------------------------------------------------------------------
-// Includes.
-//-----------------------------------------------------------------------------
-#include "edict.h"
+#include "convar.h"
+#ifndef PATCH_CONVAR_H_GET_FLAGS
+#error "Implement ConCommandBase::GetFlags in public/tier1/convar.h"
+#endif
 
+#include "KeyValues.h"
+#ifndef PATCH_KEYVALUES_DESTRUCTOR
+#error "Make KeyValues::~KeyValues() public."
+#endif
 
-//-----------------------------------------------------------------------------
-// CGlobalVarsBase visitor method.
-//-----------------------------------------------------------------------------
-template<class T>
-T GlobalsBase_Visitor(T cls)
-{
-	return cls;
-}
-
-
-//-----------------------------------------------------------------------------
-// CGlobalVars visitor method.
-//-----------------------------------------------------------------------------
-template<class T>
-T Globals_Visitor(T cls)
-{
-	return cls;
-}
-
-
-#endif // _GLOBALS_WRAP_PYTHON_ORANGEBOX_H
+#include "utilities/baseentity.h"
+#ifndef PATCH_NETWORK_HANDLE_BASE_DEFINITION
+#error "We need the CNetworkHandle definition..."
+#endif

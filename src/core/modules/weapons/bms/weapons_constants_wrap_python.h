@@ -1,7 +1,7 @@
 /**
 * =============================================================================
 * Source Python
-* Copyright (C) 2012 Source Python Development Team.  All rights reserved.
+* Copyright (C) 2015 Source Python Development Team.  All rights reserved.
 * =============================================================================
 *
 * This program is free software; you can redistribute it and/or modify it under
@@ -24,33 +24,17 @@
 * Development Team grants this exception to all derivative works.
 */
 
-#ifndef _GLOBALS_WRAP_PYTHON_ORANGEBOX_H
-#define _GLOBALS_WRAP_PYTHON_ORANGEBOX_H
+#ifndef _WEAPONS_CONSTANTS_BMS_WRAP_PYTHON_H
+#define _WEAPONS_CONSTANTS_BMS_WRAP_PYTHON_H
 
 //-----------------------------------------------------------------------------
-// Includes.
+// Exports WeaponSound_t.
 //-----------------------------------------------------------------------------
-#include "edict.h"
-
-
-//-----------------------------------------------------------------------------
-// CGlobalVarsBase visitor method.
-//-----------------------------------------------------------------------------
-template<class T>
-T GlobalsBase_Visitor(T cls)
+template<class T, class U>
+void export_engine_specific_weapon_sound(T _constants, U WeaponSound)
 {
-	return cls;
+	// Nothing specific to BMS...
 }
 
 
-//-----------------------------------------------------------------------------
-// CGlobalVars visitor method.
-//-----------------------------------------------------------------------------
-template<class T>
-T Globals_Visitor(T cls)
-{
-	return cls;
-}
-
-
-#endif // _GLOBALS_WRAP_PYTHON_ORANGEBOX_H
+#endif // _WEAPONS_CONSTANTS_BMS_WRAP_PYTHON_H

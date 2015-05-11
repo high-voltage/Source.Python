@@ -1,7 +1,7 @@
 /**
 * =============================================================================
 * Source Python
-* Copyright (C) 2014 Source Python Development Team.  All rights reserved.
+* Copyright (C) 2012 Source Python Development Team.  All rights reserved.
 * =============================================================================
 *
 * This program is free software; you can redistribute it and/or modify it under
@@ -24,49 +24,33 @@
 * Development Team grants this exception to all derivative works.
 */
 
-#ifndef _ENGINES_WRAP_ORANGEBOX_H
-#define _ENGINES_WRAP_ORANGEBOX_H
+#ifndef _GLOBALS_WRAP_PYTHON_BMS_H
+#define _GLOBALS_WRAP_PYTHON_BMS_H
 
 //-----------------------------------------------------------------------------
 // Includes.
 //-----------------------------------------------------------------------------
-#include "engine/IEngineSound.h"
+#include "edict.h"
 
 
 //-----------------------------------------------------------------------------
-// IEngineSound extension class.
+// CGlobalVarsBase visitor method.
 //-----------------------------------------------------------------------------
-class IEngineSoundExt
+template<class T>
+T GlobalsBase_Visitor(T cls)
 {
-public:
-	static void EmitSound(IEngineSound* pEngineSound, IRecipientFilter& filter, int iEntIndex, int iChannel, const char *pSample, 
-		float flVolume, float flAttenuation, int iFlags, int iPitch, const Vector *pOrigin, const Vector *pDirection,
-		tuple origins, bool bUpdatePositions, float soundtime, int speakerentity)
-	{
-		CUtlVector<Vector> *pUtlVecOrigins = NULL;
-		CUtlVector<Vector> vecOrigins;
-		if (len(origins) > 0)
-		{
-			pUtlVecOrigins = &vecOrigins;
-			for(int i=0; i < len(origins); i++)
-			{
-				vecOrigins.AddToTail(extract<Vector>(origins[i]));
-			}
-		}
-		
-		pEngineSound->EmitSound(filter, iEntIndex, iChannel, pSample, flVolume, flAttenuation, iFlags, iPitch, 0, pOrigin,
-			pDirection, pUtlVecOrigins, bUpdatePositions, soundtime, speakerentity);
-	}
-};
-
-
-//---------------------------------------------------------------------------------
-// IEngineTrace
-//---------------------------------------------------------------------------------
-inline int GetPointContents(const Vector &vecAbsPosition, IHandleEntity** ppEntity)
-{
-	return enginetrace->GetPointContents(vecAbsPosition, ppEntity);
+	return cls;
 }
 
 
-#endif // _ENGINES_WRAP_ORANGEBOX_H
+//-----------------------------------------------------------------------------
+// CGlobalVars visitor method.
+//-----------------------------------------------------------------------------
+template<class T>
+T Globals_Visitor(T cls)
+{
+	return cls;
+}
+
+
+#endif // _GLOBALS_WRAP_PYTHON_BMS_H

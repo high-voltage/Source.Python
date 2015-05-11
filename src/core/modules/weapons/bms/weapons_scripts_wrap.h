@@ -1,7 +1,7 @@
 /**
 * =============================================================================
 * Source Python
-* Copyright (C) 2014 Source Python Development Team.  All rights reserved.
+* Copyright (C) 2015 Source Python Development Team.  All rights reserved.
 * =============================================================================
 *
 * This program is free software; you can redistribute it and/or modify it under
@@ -24,49 +24,38 @@
 * Development Team grants this exception to all derivative works.
 */
 
-#ifndef _ENGINES_WRAP_ORANGEBOX_H
-#define _ENGINES_WRAP_ORANGEBOX_H
+#ifndef _WEAPONS_SCRIPTS_BMS_WRAP_H
+#define _WEAPONS_SCRIPTS_BMS_WRAP_H
 
 //-----------------------------------------------------------------------------
 // Includes.
 //-----------------------------------------------------------------------------
-#include "engine/IEngineSound.h"
+#include "datamap.h"
+#include "game/shared/weapon_parse.h"
+#include "tier1/utldict.h"
+#include "utilities/wrap_macros.h"
 
 
 //-----------------------------------------------------------------------------
-// IEngineSound extension class.
+// WeaponDataBase_t declaration.
 //-----------------------------------------------------------------------------
-class IEngineSoundExt
+typedef CUtlDict<FileWeaponInfo_t *, unsigned short> WeaponDataBase_t;
+
+
+//-----------------------------------------------------------------------------
+// WeaponDataBase_t extension class.
+//-----------------------------------------------------------------------------
+class WeaponDataBaseExt
 {
 public:
-	static void EmitSound(IEngineSound* pEngineSound, IRecipientFilter& filter, int iEntIndex, int iChannel, const char *pSample, 
-		float flVolume, float flAttenuation, int iFlags, int iPitch, const Vector *pOrigin, const Vector *pDirection,
-		tuple origins, bool bUpdatePositions, float soundtime, int speakerentity)
+	static CPointer *_find(WeaponDataBase_t *pWeaponDataBase, WEAPON_FILE_INFO_HANDLE uiIndex)
 	{
-		CUtlVector<Vector> *pUtlVecOrigins = NULL;
-		CUtlVector<Vector> vecOrigins;
-		if (len(origins) > 0)
-		{
-			pUtlVecOrigins = &vecOrigins;
-			for(int i=0; i < len(origins); i++)
-			{
-				vecOrigins.AddToTail(extract<Vector>(origins[i]));
-			}
-		}
-		
-		pEngineSound->EmitSound(filter, iEntIndex, iChannel, pSample, flVolume, flAttenuation, iFlags, iPitch, 0, pOrigin,
-			pDirection, pUtlVecOrigins, bUpdatePositions, soundtime, speakerentity);
+		if (uiIndex >= pWeaponDataBase->Count())
+			BOOST_RAISE_EXCEPTION(PyExc_IndexError, "Index out of range.");
+
+		return new CPointer((unsigned long)(void *)pWeaponDataBase->Element(uiIndex));
 	}
 };
 
 
-//---------------------------------------------------------------------------------
-// IEngineTrace
-//---------------------------------------------------------------------------------
-inline int GetPointContents(const Vector &vecAbsPosition, IHandleEntity** ppEntity)
-{
-	return enginetrace->GetPointContents(vecAbsPosition, ppEntity);
-}
-
-
-#endif // _ENGINES_WRAP_ORANGEBOX_H
+#endif // _WEAPONS_SCRIPTS_BMS_WRAP_H

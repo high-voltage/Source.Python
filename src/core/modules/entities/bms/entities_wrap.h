@@ -1,7 +1,7 @@
 /**
 * =============================================================================
 * Source Python
-* Copyright (C) 2014 Source Python Development Team.  All rights reserved.
+* Copyright (C) 2015 Source Python Development Team.  All rights reserved.
 * =============================================================================
 *
 * This program is free software; you can redistribute it and/or modify it under
@@ -24,49 +24,53 @@
 * Development Team grants this exception to all derivative works.
 */
 
-#ifndef _ENGINES_WRAP_ORANGEBOX_H
-#define _ENGINES_WRAP_ORANGEBOX_H
+#ifndef _ENTITIES_WRAP_BMS_H
+#define _ENTITIES_WRAP_BMS_H
 
 //-----------------------------------------------------------------------------
 // Includes.
 //-----------------------------------------------------------------------------
-#include "engine/IEngineSound.h"
+#include "dt_send.h"
+#include "game/shared/ehandle.h"
+#include "isaverestore.h"
+#include "datamap.h"
+#include "game/shared/takedamageinfo.h"
 
 
 //-----------------------------------------------------------------------------
-// IEngineSound extension class.
+// CTakeDamageInfo wrapper class.
 //-----------------------------------------------------------------------------
-class IEngineSoundExt
+class TakeDamageInfoWrapper: public TakeDamageInfoBaseWrapper
 {
 public:
-	static void EmitSound(IEngineSound* pEngineSound, IRecipientFilter& filter, int iEntIndex, int iChannel, const char *pSample, 
-		float flVolume, float flAttenuation, int iFlags, int iPitch, const Vector *pOrigin, const Vector *pDirection,
-		tuple origins, bool bUpdatePositions, float soundtime, int speakerentity)
+	int get_penetrated()
 	{
-		CUtlVector<Vector> *pUtlVecOrigins = NULL;
-		CUtlVector<Vector> vecOrigins;
-		if (len(origins) > 0)
-		{
-			pUtlVecOrigins = &vecOrigins;
-			for(int i=0; i < len(origins); i++)
-			{
-				vecOrigins.AddToTail(extract<Vector>(origins[i]));
-			}
-		}
-		
-		pEngineSound->EmitSound(filter, iEntIndex, iChannel, pSample, flVolume, flAttenuation, iFlags, iPitch, 0, pOrigin,
-			pDirection, pUtlVecOrigins, bUpdatePositions, soundtime, speakerentity);
+		return m_iPlayerPenetrationCount;
+	}
+	
+	void set_penetrated(int iPenetrated)
+	{
+		m_iPlayerPenetrationCount = iPenetrated;
 	}
 };
 
 
-//---------------------------------------------------------------------------------
-// IEngineTrace
-//---------------------------------------------------------------------------------
-inline int GetPointContents(const Vector &vecAbsPosition, IHandleEntity** ppEntity)
+//-----------------------------------------------------------------------------
+// CTakeDamageInfo extension class.
+//-----------------------------------------------------------------------------
+class TakeDamageInfoExt
 {
-	return enginetrace->GetPointContents(vecAbsPosition, ppEntity);
-}
+public:
+	static int get_penetrated(CTakeDamageInfo *pTakeDamageInfo)
+	{
+		return ((TakeDamageInfoWrapper *)pTakeDamageInfo)->get_penetrated();
+	}
+	
+	static void set_penetrated(CTakeDamageInfo *pTakeDamageInfo, int iPenetrated)
+	{
+		((TakeDamageInfoWrapper *)pTakeDamageInfo)->set_penetrated(iPenetrated);
+	}
+};
 
 
-#endif // _ENGINES_WRAP_ORANGEBOX_H
+#endif // _ENTITIES_WRAP_BMS_H

@@ -1,10 +1,10 @@
 # ------------------------------------------------------------------
-# File: src/makefiles/branch/tf2.cmake
-# Purpose: This is the CMake file for the tf2 branch.
+# File: src/makefiles/branch/bms.cmake
+# Purpose: This is the CMake file for the bms branch.
 # ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
 # Set the engine version.
 # ------------------------------------------------------------------
-Set(SOURCE_ENGINE "orangebox")
-add_definitions(-DENGINE_ORANGEBOX)
+Set(SOURCE_ENGINE "bms")
+add_definitions(-DENGINE_BMS)

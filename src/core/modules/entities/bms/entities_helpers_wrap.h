@@ -24,49 +24,31 @@
 * Development Team grants this exception to all derivative works.
 */
 
-#ifndef _ENGINES_WRAP_ORANGEBOX_H
-#define _ENGINES_WRAP_ORANGEBOX_H
+#ifndef _ENTITIES_HELPERS_WRAP_BMS_H
+#define _ENTITIES_HELPERS_WRAP_BMS_H
 
 //-----------------------------------------------------------------------------
 // Includes.
 //-----------------------------------------------------------------------------
-#include "engine/IEngineSound.h"
+#include "utilities/wrap_macros.h"
+#include "toolframework/itoolentity.h"
+#include "utilities/conversions.h"
+#include "modules/memory/memory_tools.h"
 
 
 //-----------------------------------------------------------------------------
-// IEngineSound extension class.
+// External variables.
 //-----------------------------------------------------------------------------
-class IEngineSoundExt
-{
-public:
-	static void EmitSound(IEngineSound* pEngineSound, IRecipientFilter& filter, int iEntIndex, int iChannel, const char *pSample, 
-		float flVolume, float flAttenuation, int iFlags, int iPitch, const Vector *pOrigin, const Vector *pDirection,
-		tuple origins, bool bUpdatePositions, float soundtime, int speakerentity)
-	{
-		CUtlVector<Vector> *pUtlVecOrigins = NULL;
-		CUtlVector<Vector> vecOrigins;
-		if (len(origins) > 0)
-		{
-			pUtlVecOrigins = &vecOrigins;
-			for(int i=0; i < len(origins); i++)
-			{
-				vecOrigins.AddToTail(extract<Vector>(origins[i]));
-			}
-		}
-		
-		pEngineSound->EmitSound(filter, iEntIndex, iChannel, pSample, flVolume, flAttenuation, iFlags, iPitch, 0, pOrigin,
-			pDirection, pUtlVecOrigins, bUpdatePositions, soundtime, speakerentity);
-	}
-};
+extern IServerTools *servertools;
 
 
-//---------------------------------------------------------------------------------
-// IEngineTrace
-//---------------------------------------------------------------------------------
-inline int GetPointContents(const Vector &vecAbsPosition, IHandleEntity** ppEntity)
+//-----------------------------------------------------------------------------
+// Removes the entity matching the given index.
+//-----------------------------------------------------------------------------
+void remove_entity(unsigned int uiEntityIndex)
 {
-	return enginetrace->GetPointContents(vecAbsPosition, ppEntity);
+	servertools->RemoveEntity(BaseEntityFromIndex(uiEntityIndex, true));
 }
 
 
-#endif // _ENGINES_WRAP_ORANGEBOX_H
+#endif // _ENTITIES_HELPERS_WRAP_BMS_H

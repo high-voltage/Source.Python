@@ -1,7 +1,7 @@
 /**
 * =============================================================================
 * Source Python
-* Copyright (C) 2012 Source Python Development Team.  All rights reserved.
+* Copyright (C) 2015 Source Python Development Team.  All rights reserved.
 * =============================================================================
 *
 * This program is free software; you can redistribute it and/or modify it under
@@ -24,33 +24,9 @@
 * Development Team grants this exception to all derivative works.
 */
 
-#ifndef _GLOBALS_WRAP_PYTHON_ORANGEBOX_H
-#define _GLOBALS_WRAP_PYTHON_ORANGEBOX_H
+#ifndef _ENTITIES_PROPS_WRAP_BMS_H
+#define _ENTITIES_PROPS_WRAP_BMS_H
 
-//-----------------------------------------------------------------------------
-// Includes.
-//-----------------------------------------------------------------------------
-#include "edict.h"
+// Nothing specific to BMS...
 
-
-//-----------------------------------------------------------------------------
-// CGlobalVarsBase visitor method.
-//-----------------------------------------------------------------------------
-template<class T>
-T GlobalsBase_Visitor(T cls)
-{
-	return cls;
-}
-
-
-//-----------------------------------------------------------------------------
-// CGlobalVars visitor method.
-//-----------------------------------------------------------------------------
-template<class T>
-T Globals_Visitor(T cls)
-{
-	return cls;
-}
-
-
-#endif // _GLOBALS_WRAP_PYTHON_ORANGEBOX_H
+#endif // _ENTITIES_PROPS_WRAP_BMS_H
